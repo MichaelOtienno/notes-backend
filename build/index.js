@@ -31,11 +31,6 @@ const notesRoutes_1 = __importDefault(require("./notesRoutes/notesRoutes"));
 const app = (0, express_1.default)();
 app.use((0, express_1.json)());
 app.use('/notes', notesRoutes_1.default);
-app.use((err, req, res) => {
-    res.json(({
-        message: err.message
-    }));
-});
 app.listen(3600, () => {
     console.log("Server running on port 3600");
 });

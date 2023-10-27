@@ -8,11 +8,15 @@ export const createNote = async(req:Request,res:Response)=>{
         const {note_title,note_body} = req.body;
 
         const pool = await mssql.connect(notesSqlConfig);
-      let output =   await pool.query(`INSERT INTO note (note_title,note_body) VALUES ('${note_title}','${note_body}')`)
-      console.log(output)
+        const result = await pool.query(`INSERT INTO note (note_title, note_body)VALUES ('${note_title}', '${note_body}') `);
+        console.log("Inserted note: ", note_title, note_body, result);
+
+
        return res.status(200).json({
+        
         message:"note created successfully"
        })
+       
 
        
     }catch(error){
@@ -38,11 +42,11 @@ export const getAllNotes = async (req: Request, res: Response) => {
 
 //get a single note by id
 export const getNoteById = async (req: Request, res: Response) => {
-    const { note_id } = req.params;
+    const { id } = req.params;
 
     try {
         const pool = await mssql.connect(notesSqlConfig);
-        const result = await pool.query(`SELECT * FROM note WHERE id = ${note_id}`);
+        const result = await pool.query(`SELECT * FROM note WHERE id = ${id}`);
 
         if (pool.connected) {
             console.log('Database connected');
@@ -61,7 +65,7 @@ export const getNoteById = async (req: Request, res: Response) => {
 
 //update a note by ID
 export const updateNote = async (req: Request, res: Response) => {
-    const { note_id } = req.params;
+    const { id } = req.params;
     const { note_title, note_body } = req.body;
 
     try {
@@ -69,7 +73,7 @@ export const updateNote = async (req: Request, res: Response) => {
         const result = await pool.query(`
             UPDATE note
             SET note_title = '${note_title}', note_body = '${note_body}'
-            WHERE id = ${note_id}
+            WHERE id = ${id}
         `);
 
         if (pool.connected) {
@@ -89,11 +93,11 @@ export const updateNote = async (req: Request, res: Response) => {
 
 // delete a note by ID
 export const deleteNote = async (req: Request, res: Response) => {
-    const { note_id } = req.params;
+    const { id } = req.params;
 
     try {
         const pool = await mssql.connect(notesSqlConfig);
-        const result = await pool.query(`DELETE FROM note WHERE id = ${note_id}`);
+        const result = await pool.query(`DELETE FROM note WHERE id = ${id}`);
 
         if (pool.connected) {
             console.log('Database connected');

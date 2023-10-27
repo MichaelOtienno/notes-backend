@@ -20,8 +20,8 @@ const createNote = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const { note_title, note_body } = req.body;
         const pool = yield mssql_1.default.connect(notesConfig_1.notesSqlConfig);
-        let output = yield pool.query(`INSERT INTO note (note_title,note_body) VALUES ('${note_title}','${note_body}')`);
-        console.log(output);
+        const result = yield pool.query(`INSERT INTO note (note_title, note_body)VALUES ('${note_title}', '${note_body}') `);
+        console.log("Inserted note: ", note_title, note_body, result);
         return res.status(200).json({
             message: "note created successfully"
         });
@@ -48,10 +48,10 @@ const getAllNotes = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getAllNotes = getAllNotes;
 //get a single note by id
 const getNoteById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { note_id } = req.params;
+    const { id } = req.params;
     try {
         const pool = yield mssql_1.default.connect(notesConfig_1.notesSqlConfig);
-        const result = yield pool.query(`SELECT * FROM note WHERE id = ${note_id}`);
+        const result = yield pool.query(`SELECT * FROM note WHERE id = ${id}`);
         if (pool.connected) {
             console.log('Database connected');
         }
@@ -65,16 +65,16 @@ const getNoteById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getNoteById = getNoteById;
-// Controller to update a note by ID
+//update a note by ID
 const updateNote = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { note_id } = req.params;
+    const { id } = req.params;
     const { note_title, note_body } = req.body;
     try {
         const pool = yield mssql_1.default.connect(notesConfig_1.notesSqlConfig);
         const result = yield pool.query(`
             UPDATE note
             SET note_title = '${note_title}', note_body = '${note_body}'
-            WHERE id = ${note_id}
+            WHERE id = ${id}
         `);
         if (pool.connected) {
             console.log('Database connected');
@@ -91,10 +91,10 @@ const updateNote = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.updateNote = updateNote;
 // delete a note by ID
 const deleteNote = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { note_id } = req.params;
+    const { id } = req.params;
     try {
         const pool = yield mssql_1.default.connect(notesConfig_1.notesSqlConfig);
-        const result = yield pool.query(`DELETE FROM note WHERE id = ${note_id}`);
+        const result = yield pool.query(`DELETE FROM note WHERE id = ${id}`);
         if (pool.connected) {
             console.log('Database connected');
         }
