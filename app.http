@@ -1,0 +1,8 @@
+POST http://localhost:3600/notes/createNote
+
+Content-Type: application/json
+
+{
+    "note_title":"jump",
+    "note_body":"i will run"
+}
