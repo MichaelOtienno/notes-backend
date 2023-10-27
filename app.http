@@ -1,8 +1,7 @@
-post http://localhost:3600/notes/create
-
+get http://localhost:3600/notes/
 Content-Type: application/json
 
 {
-    "note_title":"run",
-    "note_body":"i will run"
+    "note_title": "riding",
+    "note_body": "ride to Mombasa"
 }

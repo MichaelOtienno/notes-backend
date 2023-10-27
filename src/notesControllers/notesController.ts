@@ -3,24 +3,23 @@ import mssql from 'mssql'
 import { notesSqlConfig } from "../config/notesConfig";
 
 // create a note
-export const createNote = async(req:Request,res:Response)=>{
-    try{
-        const {note_title,note_body} = req.body;
+export const createNote = async (req: Request, res: Response) => {
+    try {
+
+        const { note_title, note_body } = req.body;
 
         const pool = await mssql.connect(notesSqlConfig);
         const result = await pool.query(`INSERT INTO note (note_title, note_body)VALUES ('${note_title}', '${note_body}') `);
-        console.log("Inserted note: ", note_title, note_body, result);
+
+        return res.status(200).json({
+
+            message: "note created successfully"
+        })
 
 
-       return res.status(200).json({
-        
-        message:"note created successfully"
-       })
-       
 
-       
-    }catch(error){
-        return res.status(501).json({error:error});
+    } catch (error) {
+        return res.status(501).json({ error: error });
     }
 }
 
@@ -99,9 +98,6 @@ export const deleteNote = async (req: Request, res: Response) => {
         const pool = await mssql.connect(notesSqlConfig);
         const result = await pool.query(`DELETE FROM note WHERE id = ${id}`);
 
-        if (pool.connected) {
-            console.log('Database connected');
-        }
 
         if (result.rowsAffected[0] === 0) {
             return res.status(404).json({ message: 'Note not found' });

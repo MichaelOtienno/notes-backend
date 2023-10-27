@@ -21,7 +21,6 @@ const createNote = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const { note_title, note_body } = req.body;
         const pool = yield mssql_1.default.connect(notesConfig_1.notesSqlConfig);
         const result = yield pool.query(`INSERT INTO note (note_title, note_body)VALUES ('${note_title}', '${note_body}') `);
-        console.log("Inserted note: ", note_title, note_body, result);
         return res.status(200).json({
             message: "note created successfully"
         });
@@ -95,9 +94,6 @@ const deleteNote = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const pool = yield mssql_1.default.connect(notesConfig_1.notesSqlConfig);
         const result = yield pool.query(`DELETE FROM note WHERE id = ${id}`);
-        if (pool.connected) {
-            console.log('Database connected');
-        }
         if (result.rowsAffected[0] === 0) {
             return res.status(404).json({ message: 'Note not found' });
         }

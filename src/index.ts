@@ -1,9 +1,10 @@
-import express, { Request, Response, json } from "express";
+const express = require("express");
+const app = express();
+app.use(express.json());
+
 import notes_router from "./notesRoutes/notesRoutes";
 
-const app = express();
 
-app.use(json());
 
 app.use('/notes',notes_router)
 
