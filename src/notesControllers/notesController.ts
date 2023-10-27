@@ -59,7 +59,7 @@ export const getNoteById = async (req: Request, res: Response) => {
 };
 
 
-// Controller to update a note by ID
+//update a note by ID
 export const updateNote = async (req: Request, res: Response) => {
     const { note_id } = req.params;
     const { note_title, note_body } = req.body;
